@@ -3,23 +3,23 @@
     <div class="form__wrapper">
       <label for="name" class="form__label">Name</label>
       <input
-          id="name"
-          v-model="userName"
-          type="text"
-          placeholder="Input username"
-          class="form__input"
-      >
+        id="name"
+        v-model="userName"
+        type="text"
+        placeholder="Input username"
+        class="form__input"
+      />
     </div>
 
     <div class="form__wrapper">
       <label for="password" class="form__label">Password</label>
       <input
-          id="password"
-          v-model="password"
-          :type="isShowPassword ? 'text' : 'password'"
-          placeholder="Input password"
-          class="form__input form__input--password"
-      >
+        id="password"
+        v-model="password"
+        :type="isShowPassword ? 'text' : 'password'"
+        placeholder="Input password"
+        class="form__input form__input--password"
+      />
       <ShowHideButton
         :show="isShowPassword"
         class="form__show-password-button"
@@ -38,8 +38,8 @@
 
 <script>
 import { ref } from "vue";
-import ShowHideButton from "@/components/ShowHideButton.vue"
-import ActionButton from "@/components/ActionButton.vue"
+import ShowHideButton from "@/components/ShowHideButton.vue";
+import ActionButton from "@/components/ActionButton.vue";
 
 export default {
   name: "SignIn",
@@ -57,10 +57,10 @@ export default {
       userName,
       password,
       isShowPassword,
-      handleShowHide
-    }
-  }
-}
+      handleShowHide,
+    };
+  },
+};
 </script>
 
 <style scoped lang="less">

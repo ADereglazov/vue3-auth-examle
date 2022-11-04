@@ -10,18 +10,18 @@ export default {
   props: {
     type: {
       type: String,
-      default: "button"
+      default: "button",
     },
     text: {
       type: String,
-      default: "Action"
+      default: "Action",
     },
     disabled: {
       type: Boolean,
-      default: false
-    }
-  }
-}
+      default: false,
+    },
+  },
+};
 </script>
 
 <style scoped lang="less">

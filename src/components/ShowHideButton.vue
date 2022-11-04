@@ -1,13 +1,18 @@
 <template>
-  <button type="button" class="show-hide-button" aria-label="show/hide password" @click="handleClick">
+  <button
+    type="button"
+    class="show-hide-button"
+    aria-label="show/hide password"
+    @click="handleClick"
+  >
     <EyeIcon v-if="show" class="show-hide-button__icon" />
     <EyeSlashIcon v-else class="show-hide-button__icon" />
   </button>
 </template>
 
 <script>
-import EyeIcon from "@/assets/icons/eye.svg"
-import EyeSlashIcon from "@/assets/icons/eye-slash.svg"
+import EyeIcon from "@/assets/icons/eye.svg";
+import EyeSlashIcon from "@/assets/icons/eye-slash.svg";
 
 export default {
   name: "ShowHideButton",
@@ -16,19 +21,19 @@ export default {
   props: {
     show: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   setup(props, { emit }) {
     function handleClick() {
-      emit("show-hide")
+      emit("show-hide");
     }
 
     return {
-      handleClick
-    }
-  }
-}
+      handleClick,
+    };
+  },
+};
 </script>
 
 <style scoped lang="less">
