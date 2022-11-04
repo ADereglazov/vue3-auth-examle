@@ -4,6 +4,7 @@
       <label for="name" class="form__label">Name</label>
       <input
           id="name"
+          v-model="userName"
           type="text"
           placeholder="Input username"
           class="form__input"
@@ -14,37 +15,48 @@
       <label for="password" class="form__label">Password</label>
       <input
           id="password"
-          :type="showPassword ? 'text' : 'password'"
+          v-model="password"
+          :type="isShowPassword ? 'text' : 'password'"
           placeholder="Input password"
           class="form__input form__input--password"
       >
       <ShowHideButton
-        :show="showPassword"
+        :show="isShowPassword"
         class="form__show-password-button"
         @show-hide="handleShowHide"
       />
     </div>
 
-    <button type="submit" class="form__button">Sign in</button>
+    <ActionButton
+      type="submit"
+      text="Sign in"
+      :disabled="!userName || !password"
+      class="form__button"
+    />
   </form>
 </template>
 
 <script>
 import { ref } from "vue";
 import ShowHideButton from "@/components/ShowHideButton.vue"
+import ActionButton from "@/components/ActionButton.vue"
 
 export default {
   name: "SignIn",
-  components: { ShowHideButton },
+  components: { ShowHideButton, ActionButton },
   setup() {
-    const showPassword = ref(false);
+    const userName = ref("");
+    const password = ref("");
+    const isShowPassword = ref(false);
 
     function handleShowHide() {
-      showPassword.value = !showPassword.value;
+      isShowPassword.value = !isShowPassword.value;
     }
 
     return {
-      showPassword,
+      userName,
+      password,
+      isShowPassword,
       handleShowHide
     }
   }
@@ -69,6 +81,15 @@ export default {
     width: 100%;
     height: 30px;
     padding: 0 10px;
+    background-color: var(--vt-c-white);
+
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+      -webkit-background-clip: text;
+      transition: background-color 5000s ease-in-out 0s;
+    }
 
     &--password {
       padding-right: 30px;
@@ -79,35 +100,6 @@ export default {
     position: absolute;
     right: 0;
     bottom: 0;
-  }
-
-  &__button {
-    display: block;
-    min-width: 100px;
-    max-width: 400px;
-    font-size: 16px;
-    line-height: 24px;
-    text-align: center;
-    color: var(--vt-c-white-soft);
-    background-color: var(--green-light);
-    padding: 10px;
-    border: 0;
-    border-radius: 8px;
-
-    &:hover {
-      cursor: pointer;
-      background-color: var(--green-dark);
-    }
-
-    &:active {
-      color: var(--vt-c-white-mute);
-      background-color: var(--green);
-    }
-
-    &:disabled {
-      background-color: var(--vt-c-divider-dark-1);
-      cursor: default;
-    }
   }
 }
 </style>
