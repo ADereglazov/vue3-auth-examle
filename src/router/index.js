@@ -1,6 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-import SignIn from "../views/SignIn.vue";
-import PageNotFound from "../views/PageNotFound.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -8,14 +6,17 @@ const router = createRouter({
     {
       path: "/",
       name: "sign-in",
-      component: SignIn,
+      component: () => import("../views/SignIn.vue"),
     },
     {
       path: "/profile",
       name: "profile",
       component: () => import("../views/UserProfile.vue"),
     },
-    { path: "/:pathMatch(.*)*", component: PageNotFound },
+    {
+      path: "/:pathMatch(.*)*",
+      component: () => import("../views/PageNotFound.vue"),
+    },
   ],
 });
 
