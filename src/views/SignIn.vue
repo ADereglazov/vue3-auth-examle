@@ -79,7 +79,7 @@ import ActionButton from "@/components/ActionButton.vue";
 const MIN_PASSWORD_LENGTH = 8;
 const MAX_PASSWORD_LENGTH = 15;
 const required = (val) => !!val;
-const validEmail = (val) => /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(val);
+const validEmail = (val) => /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/gi.test(val);
 const reqLength = (min, max) => (val) => val.length >= min && val.length <= max;
 
 export default {
