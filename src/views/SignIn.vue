@@ -14,17 +14,8 @@
           @blur="form.email.blur"
         />
       </label>
-      <small
-        v-if="form.email.touched && form.email.errors.required"
-        class="form__input-hint"
-      >
-        Email is required
-      </small>
-      <small
-        v-else-if="form.email.touched && form.email.errors.validEmail"
-        class="form__input-hint"
-      >
-        Email is invalid
+      <small v-show="emailErrorHint" class="form__input-hint">
+        {{ emailErrorHint }}
       </small>
     </div>
 
@@ -45,19 +36,8 @@
           @show-hide="handleShowHide"
         />
       </label>
-      <small
-        v-if="form.password.touched && form.password.errors.required"
-        class="form__input-hint"
-      >
-        Password is required
-      </small>
-      <small
-        v-else-if="form.password.touched && form.password.errors.reqLength"
-        class="form__input-hint"
-      >
-        Password must be min {{ minPasswordLength }} and max
-        {{ maxPasswordLength }} characters. Now it is
-        {{ form.password.value.length }}.
+      <small v-show="passwordErrorHint" class="form__input-hint">
+        {{ passwordErrorHint }}
       </small>
     </div>
 
@@ -100,8 +80,25 @@ export default {
         },
       },
     });
-    const minPasswordLength = computed(() => MIN_PASSWORD_LENGTH);
-    const maxPasswordLength = computed(() => MAX_PASSWORD_LENGTH);
+
+    const emailErrorHint = computed(() => {
+      if (form.email.touched && form.email.errors.required) {
+        return "Email is required";
+      } else if (form.email.touched && form.email.errors.validEmail) {
+        return "Email is invalid";
+      }
+      return "";
+    });
+
+    const passwordErrorHint = computed(() => {
+      if (form.password.touched && form.password.errors.required) {
+        return "Password is required";
+      } else if (form.password.touched && form.password.errors.reqLength) {
+        return `Password must be min ${MIN_PASSWORD_LENGTH} and max ${MAX_PASSWORD_LENGTH} characters.
+                Now it is ${form.password.value.length}.`;
+      }
+      return "";
+    });
 
     function handleShowHide() {
       isShowPassword.value = !isShowPassword.value;
@@ -114,8 +111,8 @@ export default {
     return {
       form,
       isShowPassword,
-      minPasswordLength,
-      maxPasswordLength,
+      emailErrorHint,
+      passwordErrorHint,
       handleShowHide,
       handleSubmit,
     };
