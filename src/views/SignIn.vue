@@ -72,7 +72,7 @@
 
 <script>
 import { ref, computed } from "vue";
-import { useForm } from "@/use/form";
+import { useForm } from "@/composable/form";
 import ShowHideButton from "@/components/ShowHideButton.vue";
 import ActionButton from "@/components/ActionButton.vue";
 
