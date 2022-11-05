@@ -18,6 +18,12 @@
       >
         Email is required
       </small>
+      <small
+        v-else-if="form.email.touched && form.email.errors.validEmail"
+        class="form__input-hint"
+      >
+        Email is invalid
+      </small>
     </div>
 
     <div class="form__wrapper">
@@ -71,6 +77,7 @@ import ActionButton from "@/components/ActionButton.vue";
 const MIN_PASSWORD_LENGTH = 8;
 const MAX_PASSWORD_LENGTH = 15;
 const required = (val) => !!val;
+const validEmail = (val) => /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(val);
 const reqLength = (min, max) => (val) => val.length >= min && val.length <= max;
 
 export default {
@@ -81,7 +88,7 @@ export default {
     const form = useForm({
       email: {
         value: "",
-        validators: { required },
+        validators: { required, validEmail },
       },
       password: {
         value: "",
