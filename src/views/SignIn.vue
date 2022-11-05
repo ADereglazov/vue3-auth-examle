@@ -1,5 +1,7 @@
 <template>
   <form class="form">
+    <h1 class="form__title">Auth</h1>
+
     <div class="form__wrapper">
       <label for="name" class="form__label">
         <span class="form__label-text">Email</span>
@@ -121,6 +123,12 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: fit-content;
+  margin: 0 auto;
+
+  &__title {
+    align-self: start;
+  }
 
   &__wrapper {
     width: 100%;
