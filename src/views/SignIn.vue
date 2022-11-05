@@ -82,20 +82,24 @@ export default {
     });
 
     const emailErrorHint = computed(() => {
-      if (form.email.touched && form.email.errors.required) {
-        return "Email is required";
-      } else if (form.email.touched && form.email.errors.validEmail) {
-        return "Email is invalid";
+      if (form.email.touched) {
+        if (form.email.errors.required) {
+          return "Email is required";
+        } else if (form.email.errors.validEmail) {
+          return "Email is invalid";
+        }
       }
       return "";
     });
 
     const passwordErrorHint = computed(() => {
-      if (form.password.touched && form.password.errors.required) {
-        return "Password is required";
-      } else if (form.password.touched && form.password.errors.reqLength) {
-        return `Password must be min ${MIN_PASSWORD_LENGTH} and max ${MAX_PASSWORD_LENGTH} characters.
-                Now it is ${form.password.value.length}.`;
+      if (form.password.touched) {
+        if (form.password.errors.required) {
+          return "Password is required";
+        } else if (form.password.errors.reqLength) {
+          return `Password must be min ${MIN_PASSWORD_LENGTH} and max ${MAX_PASSWORD_LENGTH} characters.
+                  Now it is ${form.password.value.length}.`;
+        }
       }
       return "";
     });
