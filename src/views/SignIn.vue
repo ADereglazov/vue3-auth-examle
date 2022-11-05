@@ -2,44 +2,32 @@
   <form class="form" @click.prevent="handleSubmit">
     <h1 class="form__title">Auth</h1>
 
-    <div class="form__wrapper">
-      <label for="name" class="form__label">
-        <span class="form__label-text">Email</span>
-        <input
-          id="name"
-          v-model="form.email.value"
-          type="text"
-          placeholder="Input email"
-          class="form__input"
-          @blur="form.email.blur"
-        />
-      </label>
-      <small v-show="emailErrorHint" class="form__input-hint">
-        {{ emailErrorHint }}
-      </small>
-    </div>
+    <SignInput
+      v-model="form.email.value"
+      :error="emailErrorHint"
+      label="Email"
+      type="text"
+      placeholder="Input email"
+      class="form__input"
+      @blur="form.email.blur"
+    />
 
-    <div class="form__wrapper">
-      <label for="password" class="form__label">
-        <span class="form__label-text">Password</span>
-        <input
-          id="password"
-          v-model="form.password.value"
-          :type="isShowPassword ? 'text' : 'password'"
-          placeholder="Input password"
-          class="form__input form__input--password"
-          @blur="form.password.blur"
-        />
-        <ShowHideButton
-          :show="isShowPassword"
-          class="form__show-password-button"
-          @show-hide="handleShowHide"
-        />
-      </label>
-      <small v-show="passwordErrorHint" class="form__input-hint">
-        {{ passwordErrorHint }}
-      </small>
-    </div>
+    <SignInput
+      v-model="form.password.value"
+      :error="passwordErrorHint"
+      label="Password"
+      :type="isShowPassword ? 'text' : 'password'"
+      placeholder="Input password"
+      input-class="form__input--password"
+      class="form__input"
+      @blur="form.password.blur"
+    >
+      <ShowHideButton
+        :show="isShowPassword"
+        class="form__show-password-button"
+        @show-hide="handleShowHide"
+      />
+    </SignInput>
 
     <ActionButton
       type="submit"
@@ -53,6 +41,7 @@
 <script>
 import { ref, computed } from "vue";
 import { useForm } from "@/composable/form";
+import SignInput from "@/components/SignInput.vue";
 import ShowHideButton from "@/components/ShowHideButton.vue";
 import ActionButton from "@/components/ActionButton.vue";
 
@@ -64,7 +53,7 @@ const reqLength = (min, max) => (val) => val.length >= min && val.length <= max;
 
 export default {
   name: "SignIn",
-  components: { ShowHideButton, ActionButton },
+  components: { SignInput, ShowHideButton, ActionButton },
   setup() {
     const isShowPassword = ref(false);
     const form = useForm({
@@ -136,47 +125,14 @@ export default {
     align-self: start;
   }
 
-  &__wrapper {
-    width: 100%;
+  &__input {
     min-width: 320px;
     max-width: 400px;
     margin-bottom: 20px;
   }
 
-  &__label {
-    position: relative;
-    display: block;
-  }
-
-  &__label-text {
-    color: var(--vt-c-black);
-  }
-
-  &__input {
-    width: 100%;
-    height: 30px;
-    padding: 0 10px;
-    border-color: var(--vt-c-divider-dark-1);
-    border-radius: 5px;
-    background-color: var(--vt-c-white);
-
-    &:-webkit-autofill,
-    &:-webkit-autofill:hover,
-    &:-webkit-autofill:focus,
-    &:-webkit-autofill:active {
-      -webkit-background-clip: text;
-      transition: background-color 5000s ease-in-out 0s;
-    }
-
-    &--password {
-      padding-right: 30px;
-    }
-  }
-
-  &__input-hint {
-    font-size: 12px;
-    line-height: normal;
-    color: var(--red-alert);
+  /deep/ &__input--password {
+    padding-right: 30px;
   }
 
   &__show-password-button {
