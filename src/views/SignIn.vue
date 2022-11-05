@@ -1,5 +1,5 @@
 <template>
-  <form class="form">
+  <form class="form" @click.prevent="handleSubmit">
     <h1 class="form__title">Auth</h1>
 
     <div class="form__wrapper">
@@ -107,12 +107,17 @@ export default {
       isShowPassword.value = !isShowPassword.value;
     }
 
+    function handleSubmit() {
+      console.log("Submit");
+    }
+
     return {
       form,
       isShowPassword,
       minPasswordLength,
       maxPasswordLength,
       handleShowHide,
+      handleSubmit,
     };
   },
 };
@@ -142,10 +147,16 @@ export default {
     display: block;
   }
 
+  &__label-text {
+    color: var(--vt-c-black);
+  }
+
   &__input {
     width: 100%;
     height: 30px;
     padding: 0 10px;
+    border-color: var(--vt-c-divider-dark-1);
+    border-radius: 5px;
     background-color: var(--vt-c-white);
 
     &:-webkit-autofill,

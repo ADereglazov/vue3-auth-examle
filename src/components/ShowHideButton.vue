@@ -46,7 +46,7 @@ export default {
   cursor: pointer;
 
   &__icon {
-    fill: var(--vt-c-indigo);
+    fill: var(--vt-c-text-light-2);
   }
 }
 </style>
