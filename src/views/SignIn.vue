@@ -1,5 +1,5 @@
 <template>
-  <form class="form" @click.prevent="handleSubmit">
+  <form class="form" @submit.prevent="handleSubmit">
     <h1 class="form__title">Auth</h1>
 
     <SignInput
@@ -10,6 +10,7 @@
       placeholder="Input email"
       class="form__input"
       @blur="form.email.blur"
+      @input="authError = false"
     />
 
     <SignInput
@@ -21,6 +22,7 @@
       input-class="form__input--password"
       class="form__input"
       @blur="form.password.blur"
+      @input="authError = false"
     >
       <ShowHideButton
         :show="isShowPassword"
@@ -36,15 +38,14 @@
       class="form__action-button"
     />
 
-    <p v-if="authError" class="form__error">
-      The email address or password is incorrect.
-    </p>
+    <p v-if="authError" class="form__error">{{ authError }}</p>
   </form>
 </template>
 
 <script>
 import { ref, computed } from "vue";
 import { useForm } from "@/composable/form";
+import { useAuthStore } from "@/store";
 import SignInput from "@/components/SignInput.vue";
 import ShowHideButton from "@/components/ShowHideButton.vue";
 import ActionButton from "@/components/ActionButton.vue";
@@ -103,7 +104,15 @@ export default {
     }
 
     function handleSubmit() {
-      console.log("Submit");
+      const authStore = useAuthStore();
+      const { username, password } = {
+        username: form.email.value,
+        password: form.password.value,
+      };
+
+      return authStore
+        .login(username, password)
+        .catch((e) => (authError.value = e));
     }
 
     return {

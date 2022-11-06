@@ -2,30 +2,36 @@
   <div class="user-profile">
     <h1 class="user-profile__title">Profile</h1>
 
-    <p class="user-profile__field">Username</p>
-    <p class="user-profile__field">Email</p>
+    <p class="user-profile__field">{{ authUser?.firstName || "unknown" }}</p>
+    <p class="user-profile__field">{{ authUser?.lastName || "unknown" }}</p>
+    <p class="user-profile__field">{{ authUser?.email }}</p>
 
     <ActionButton
       type="button"
       text="Log out"
       class="user-profile__button"
-      @click="handleLogout"
+      @click="logout"
     />
   </div>
 </template>
 
 <script>
+import { storeToRefs } from "pinia";
+import { useAuthStore } from "@/store";
 import ActionButton from "@/components/ActionButton.vue";
 
 export default {
   name: "UserProfile",
   components: { ActionButton },
   setup() {
-    function handleLogout() {
-      console.log("Logout");
+    const authStore = useAuthStore();
+    const { user: authUser } = storeToRefs(authStore);
+
+    function logout() {
+      authStore.logout();
     }
 
-    return { handleLogout };
+    return { authUser, logout };
   },
 };
 </script>
