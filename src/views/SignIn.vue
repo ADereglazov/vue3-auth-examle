@@ -169,7 +169,6 @@ export default {
     line-height: 20px;
     font-weight: 500;
     color: var(--vt-c-white);
-    box-shadow: 0 0 4px 0 var(--red-alert);
   }
 }
 </style>
