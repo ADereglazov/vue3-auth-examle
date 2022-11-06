@@ -53,6 +53,8 @@
         </li>
       </ol>
     </div>
+
+    <LoadingSpinner v-if="pending" />
   </form>
 </template>
 
@@ -63,6 +65,7 @@ import { useAuthStore } from "@/store";
 import SignInput from "@/components/SignInput.vue";
 import ShowHideButton from "@/components/ShowHideButton.vue";
 import ActionButton from "@/components/ActionButton.vue";
+import LoadingSpinner from "@/components/LoadingSpinner.vue";
 
 const MIN_PASSWORD_LENGTH = 8;
 const MAX_PASSWORD_LENGTH = 15;
@@ -72,7 +75,7 @@ const reqLength = (min, max) => (val) => val.length >= min && val.length <= max;
 
 export default {
   name: "SignIn",
-  components: { SignInput, ShowHideButton, ActionButton },
+  components: { SignInput, ShowHideButton, ActionButton, LoadingSpinner },
   setup() {
     const authError = ref(false);
     const authStore = useAuthStore();
