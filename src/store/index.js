@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
-
-import { fetchWrapper } from "@/helpers";
 import router from "@/router";
+import { fetchWrapper } from "@/helpers";
 
 const baseUrl = import.meta.env.VITE_API_URL;
 
@@ -10,29 +9,28 @@ export const useAuthStore = defineStore({
   state: () => ({
     user: JSON.parse(localStorage.getItem("user")),
     returnUrl: null,
+    pending: false,
   }),
   actions: {
     async login(username, password) {
+      this.pending = true;
       const user = await fetchWrapper.post(`${baseUrl}/authenticate`, {
         username,
         password,
       });
+      this.pending = false;
 
-      // update pinia state with user object + basic auth data
       user.authdata = window.btoa(username + ":" + password);
       this.user = user;
 
-      // store user details and basic auth data in local storage
-      // to keep user logged in between page refreshes
       localStorage.setItem("user", JSON.stringify(user));
 
-      // redirect
-      router.push(this.returnUrl || "/profile");
+      await router.push(this.returnUrl || "/profile");
     },
-    logout() {
+    async logout() {
       this.user = null;
       localStorage.removeItem("user");
-      router.push("/");
+      await router.push("/");
     },
   },
 });

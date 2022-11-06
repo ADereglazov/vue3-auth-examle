@@ -34,11 +34,25 @@
     <ActionButton
       type="submit"
       text="Sign in"
-      :disabled="!form.valid"
+      :disabled="!form.valid || pending"
       class="form__action-button"
     />
 
     <p v-if="authError" class="form__error">{{ authError }}</p>
+
+    <div class="form__list-wrapper">
+      Valid users is:
+      <ol class="form__list-users">
+        <li>
+          <b>email:</b> test@email.ru <br />
+          <b>password:</b> password1
+        </li>
+        <li>
+          <b>email:</b> test2@email.ru <br />
+          <b>password:</b> password2
+        </li>
+      </ol>
+    </div>
   </form>
 </template>
 
@@ -61,6 +75,7 @@ export default {
   components: { SignInput, ShowHideButton, ActionButton },
   setup() {
     const authError = ref(false);
+    const authStore = useAuthStore();
     const isShowPassword = ref(false);
     const form = useForm({
       email: {
@@ -75,6 +90,8 @@ export default {
         },
       },
     });
+
+    const pending = computed(() => authStore.pending);
 
     const emailErrorHint = computed(() => {
       if (form.email.touched) {
@@ -104,7 +121,6 @@ export default {
     }
 
     function handleSubmit() {
-      const authStore = useAuthStore();
       const { username, password } = {
         username: form.email.value,
         password: form.password.value,
@@ -119,6 +135,7 @@ export default {
       form,
       authError,
       isShowPassword,
+      pending,
       emailErrorHint,
       passwordErrorHint,
       handleShowHide,
@@ -133,16 +150,32 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: fit-content;
+  width: 100%;
+  min-width: 280px;
+  max-width: 400px;
   margin: 0 auto;
 
   &__title {
     align-self: start;
   }
 
+  &__list-wrapper {
+    width: 100%;
+    font-weight: 700;
+    text-align: center;
+    background-color: var(--vt-c-text-dark-2);
+  }
+
+  &__list-users {
+    margin: 15px 0;
+    text-align: start;
+
+    b {
+      font-weight: 500;
+    }
+  }
+
   &__input {
-    min-width: 320px;
-    max-width: 400px;
     margin-bottom: 20px;
   }
 
@@ -162,7 +195,8 @@ export default {
 
   &__error {
     padding: 5px 10px;
-    margin: 0;
+    margin-top: 0;
+    margin-bottom: 20px;
     border-radius: 5px;
     background-color: var(--red-alert-bg);
     font-size: 14px;
