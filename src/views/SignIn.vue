@@ -33,8 +33,12 @@
       type="submit"
       text="Sign in"
       :disabled="!form.valid"
-      class="form__button"
+      class="form__action-button"
     />
+
+    <p v-if="authError" class="form__error">
+      The email address or password is incorrect.
+    </p>
   </form>
 </template>
 
@@ -55,6 +59,7 @@ export default {
   name: "SignIn",
   components: { SignInput, ShowHideButton, ActionButton },
   setup() {
+    const authError = ref(false);
     const isShowPassword = ref(false);
     const form = useForm({
       email: {
@@ -103,6 +108,7 @@ export default {
 
     return {
       form,
+      authError,
       isShowPassword,
       emailErrorHint,
       passwordErrorHint,
@@ -139,6 +145,22 @@ export default {
     position: absolute;
     right: 0;
     bottom: 0;
+  }
+
+  &__action-button {
+    margin-bottom: 15px;
+  }
+
+  &__error {
+    padding: 5px 10px;
+    margin: 0;
+    border-radius: 5px;
+    background-color: var(--red-alert-bg);
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 500;
+    color: var(--vt-c-white);
+    box-shadow: 0 0 4px 0 var(--red-alert);
   }
 }
 </style>
