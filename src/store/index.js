@@ -13,12 +13,10 @@ export const useAuthStore = defineStore({
   }),
   actions: {
     async login(username, password) {
-      this.pending = true;
       const user = await fetchWrapper.post(`${baseUrl}/authenticate`, {
         username,
         password,
       });
-      this.pending = false;
 
       user.authdata = window.btoa(username + ":" + password);
       this.user = user;

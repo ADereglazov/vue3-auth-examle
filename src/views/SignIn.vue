@@ -129,9 +129,14 @@ export default {
         password: form.password.value,
       };
 
+      authStore.pending = true;
+
       return authStore
         .login(username, password)
-        .catch((e) => (authError.value = e));
+        .catch((e) => {
+          authError.value = e;
+        })
+        .finally(() => (authStore.pending = false));
     }
 
     return {
