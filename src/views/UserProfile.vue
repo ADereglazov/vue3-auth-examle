@@ -1,5 +1,5 @@
 <template>
-  <div class="user-profile">
+  <div v-show="isLogged" class="user-profile">
     <h1 class="user-profile__title">Profile</h1>
 
     <p class="user-profile__field">{{ authUser?.firstName || "unknown" }}</p>
@@ -13,25 +13,33 @@
       @click="logout"
     />
   </div>
+  <LoadingSpinner v-if="pending" />
 </template>
 
 <script>
+import { computed, ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useAuthStore } from "@/store";
 import ActionButton from "@/components/ActionButton.vue";
+import LoadingSpinner from "@/components/LoadingSpinner.vue";
 
 export default {
   name: "UserProfile",
-  components: { ActionButton },
+  components: { ActionButton, LoadingSpinner },
   setup() {
+    const isLogged = ref(true);
     const authStore = useAuthStore();
     const { user: authUser } = storeToRefs(authStore);
+    const pending = computed(() => authStore.pending);
 
     function logout() {
+      isLogged.value = false;
+      authStore.pending = true;
       authStore.logout();
+      authStore.pending = false;
     }
 
-    return { authUser, logout };
+    return { isLogged, authUser, pending, logout };
   },
 };
 </script>
