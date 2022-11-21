@@ -187,7 +187,7 @@ export default {
     margin-bottom: 20px;
   }
 
-  /deep/ &__input--password {
+  :deep(&__input--password) {
     padding-right: 30px;
   }
 
