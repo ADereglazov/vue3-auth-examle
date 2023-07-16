@@ -30,7 +30,7 @@ router.beforeEach(async (to) => {
   if (pathAuthRequired && !authorized) {
     auth.returnUrl = to.fullPath;
     return "/";
-  } else if (to.path === "/" && authorized) {
+  } else if ((to.path === "/" || to.path === "/login") && authorized) {
     return "/profile";
   }
 });
